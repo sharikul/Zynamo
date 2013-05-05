@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Zynamo by sharikul</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Zynamo</h1>
+        <p>PHP based templating engine. Doesn't support things like @foreach loops as such.</p>
+        <p class="view"><a href="https://github.com/sharikul/Zynamo">View the Project on GitHub <small>sharikul/Zynamo</small></a></p>
+        <ul>
+          <li><a href="https://github.com/sharikul/Zynamo/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/sharikul/Zynamo/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/sharikul/Zynamo">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Meet Zynamo: A Very Basic Templating Engine</h1>
+
+<p>Zynamo is a new templating engine written in PHP <strong>for use in PHP</strong>. It allows you to store commonly typed words and characters in a key which can then be referenced in a PHP script, and when that script is processed through the Zynamo processor, it will be replaced with the respective value.</p>
+
+<h2>Begin using Zynamo</h2>
+
+<p>Clone the Zynamo repository in your WWW directory on your computer. If you don't have this folder, search for <em>Wamp Server</em> if you're using Windows, <em>Mamp Server</em> if you're on a Mac, or <em>Lamp Server</em> if you're a Linux/Ubuntu user.</p>
+
+<p>CD into the WWW directory and through a terminal, run this line of code:<br><code>git clone https://github.com/sharikul/Zynamo.git</code>  </p>
+
+<p>This will create a new folder called 'Zynamo'. Inside that folder will be three files: <em>README.md</em>, <em>zynamo_config.php</em>, and <em>zynamo_processor.php</em>.  </p>
+
+<p>The files you will need to know about are the two which start with <em>zynamo</em>_*. </p>
+
+<h3>Using <em>zynamo_config.php</em>
+</h3>
+
+<p><em>zynamo_config.php</em> is the file where you will store keys with their values. This is the file that the Zynamo processor looks for when it's called. Upon first open, you'll see an empty array called <code>$items</code>. You should store keys in that array in the <code>key =&gt; value</code> format, like so:  </p>
+
+<div class="highlight"><pre><span class="nv">$items</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"Sharikul Islam"</span>
+<span class="p">);</span>
+</pre></div>
+
+<p>Whenever you reference the "name" key in your scripts, it will be replaced with its value, in this case, "Sharikul Islam", once it's run through the Zynamo processor. To reference a key in your script, use the <code>{{key}}</code> notation.  </p>
+
+<h3>Understanding <em>zynamo_processor.php</em>
+</h3>
+
+<p>This file processes Zynamo related keys in your PHP scripts. The file itself is a class file containing the <code>zynamo</code> class that will then be instantiated in your PHP scripts. The methods in this class are:<br><code>process</code>,<br><code>process_file</code>,<br><code>process_files</code>.  </p>
+
+<p>Each method performs the processing process in different ways.  </p>
+
+<h3>Method 1: <code>process</code>
+</h3>
+
+<p>The <code>process</code> method will process and update a file <strong>in real time</strong>.  </p>
+
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span> Welcome to {{name}}'s Website! <span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Hi, this is the website of {{name}}!<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<p>Assuming that the HTML code above is saved in a <strong>.php</strong> file extension, once it's run through the Zynamo processor, <code>{{name}}</code> will be replaced with "Sharikul Islam" in the file directly. So you'll see:  </p>
+
+<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span> Welcome to Sharikul Islam's Website! <span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Hi, this is the website of Sharikul Islam!<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<h3>Method 2: <code>process_file</code>
+</h3>
+
+<p>The <code>process_file</code> method works quite differently from the <code>process</code> method. Instead of updating a file in real time, it instead requires you to create a new counterpart PHP file. For example, to create a new file called <code>index.php</code> with Zynamo keys, you should create a counterpart file prefixed with <code>**.zynamo**</code> in the middle, like so: <code>index.zynamo.php</code>. If <code>index.php</code> doesn't already exist, for example, the Zynamo processor will attempt to create it. </p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/sharikul">sharikul</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
