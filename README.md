@@ -2,7 +2,7 @@
 Zynamo is a basic templating engine written in PHP for use in MVC type PHP projects. Zynamo allows you to store commonly used values in an array which is referenced with a key, and once a file is parsed through the Zynamo processor, it will replace those keys with their respected values. 
 
 ## How to get Zynamo
-You should clone the Zynamo repository in your project folders, but it's not necessary. Wherever you want to store the Zynamo folder, simply CD (_change directory_) into that directory and run the following command from a Git terminal:
+You should clone the Zynamo repository in your project folders, but it's not necessary. Wherever you want to store the Zynamo folder, simply cd into that directory and run the following command from a Git terminal:
 
 ```
 git clone https://github.com/sharikul/Zynamo.git
