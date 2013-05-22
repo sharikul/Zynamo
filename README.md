@@ -55,4 +55,4 @@ $zynamo->process_files($list_of_zynamo_files);
 
 $zynamo->process_files("$folder/index.zynamo.php, $folder/style.css");
 ``` 
-_The `$folder` variable refers to BlogPad's content directory and it isn't related to Zynamo in any way._
+_The `$folder` variable refers to BlogPad's content directory and it isn't relevant to Zynamo in any way._
