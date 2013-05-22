@@ -6,7 +6,6 @@ You should clone the Zynamo repository in your project folders, but it's not nec
 
 ```
 git clone https://github.com/sharikul/Zynamo.git
-
 ```   
 
 After running that command, a new folder labelled 'Zynamo' should be created with the necessary files within it. 
@@ -38,7 +37,18 @@ Each function processes files in a unique way.
 Zynamo's `process()` function accepts one parameter - the path to an ordinary PHP or HTML file in your content directory. Once the function is run and it's able to find the intended file, it will search for indexes in the <code>{{index_name}}</code> notation. If indexes are found, it will replace them with their respective values, providing that they have been defined first in `zynamo_config.php`. On a sidenote, the values will be replaced in real time, so once you are able to see the replaced values in your browser, you should be able to see them in the file in your text editor.
 
 #### `process_file()`
-Zynamo's `process_file()` function accepts one parameter - the path to an ordinary PHP or HTML **that includes 'zynamo' in the middle of the filename, such as `index.zynamo.php`**. Unlike `process()`, this function creates the corresponding file if it doesn't already exist in the directory. For example, if `index.php` doesn't exist, once `index.zynamo.php` is parsed, `index.php` will be created. **It's worth noting that this function won't process anything unless it finds a `{{index_name}} notation` anywhere**. The `process_file()` function doesn't override a `.zynamo` file, unlike the `process()` function, thus helping with maintainability.
+Zynamo's `process_file()` function accepts one parameter - the path to an ordinary PHP or HTML **that includes 'zynamo' in the middle of the filename, such as `index.zynamo.php`**. Unlike `process()`, this function creates the corresponding file if it doesn't already exist in the directory. For example, if `index.php` doesn't exist, once `index.zynamo.php` is parsed, `index.php` will be created. **It's worth noting that this function won't process anything unless it finds a `{{index_name}}` notation anywhere**. The `process_file()` function doesn't override a `.zynamo` file, unlike the `process()` function, thus helping with maintainability.
 
 #### `process_files()`
-If you find yourself somehow using a range of Zynamo type files, such as an ordinary PHP or HTML file with Zynamo indexes, or `.zynamo` files, it can be a long process to call `$zynamo->process()` or `$zynamo->process_file()` on all of them. This is where the `process_files()` function comes in to the rescue! The function accepts a list of files in the form of an Array or a comma separated list in a string. The function will check to see which function from `process()` to `process_file()` is the appropriate function to use to process the different files. 
+If you find yourself somehow using a range of Zynamo type files, such as an ordinary PHP or HTML file with Zynamo indexes, or `.zynamo` files, it can be a long process to call `$zynamo->process()` or `$zynamo->process_file()` on all of them. This is where the `process_files()` function comes in to the rescue! The function accepts a list of files in the form of an Array or a comma separated list in a string. The function will check to see which function from `process()` to `process_file()` is the appropriate function to use to process the different files.  
+
+Here's a demo (_in a BlogPad environment_): 
+```php
+$list_of_zynamo_files = array(
+"$folder/index.zynamo.php",
+"$folder/style.css"
+);
+
+$zynamo->process_files($list_of_zynamo_files);
+``` 
+_The `$folder` variable refers to BlogPad's content directory and it isn't related to Zynamo in any way._
