@@ -27,9 +27,9 @@ Then when `$zynamo` points to the Zynamo class, you can begin using Zynamo's pro
 
 ### Meet Zynamo's functions
 Zynamo comes with **three** functions which handle file processing. These are:    
-*  process(),
-*  process_file(),
-*  process_files()
+*  `process()`,
+*  `process_file()`,
+*  `process_files()`
 
 Each function processes files in a unique way.  
 
@@ -56,3 +56,8 @@ $zynamo->process_files($list_of_zynamo_files);
 $zynamo->process_files("$folder/index.zynamo.php, $folder/style.css");
 ``` 
 _The `$folder` variable refers to BlogPad's content directory and it isn't relevant to Zynamo in any way._
+
+## Noted bugs
+Since Zynamo was developed to be used in MVC style projects, you will encounter bugs when trying to use it outside of these projects. As of 22-05-2013, there's **one** noted bug:  
+
+*  Each index is replaced with its value on a separate page refresh when used outside of an MVC style project.
