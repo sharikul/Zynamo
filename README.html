@@ -24,11 +24,15 @@ $zynamo = new zynamo();</code></pre>
 <p>Zynamo&#39;s <code>process_file()</code> function accepts one parameter - the path to an ordinary PHP or HTML <strong>that includes &#39;zynamo&#39; in the middle of the filename, such as <code>index.zynamo.php</code></strong>. Unlike <code>process()</code>, this function creates the corresponding file if it doesn&#39;t already exist in the directory. For example, if <code>index.php</code> doesn&#39;t exist, once <code>index.zynamo.php</code> is parsed, <code>index.php</code> will be created. <strong>It&#39;s worth noting that this function won&#39;t process anything unless it finds a <code>{{index_name}}</code> notation anywhere</strong>. The <code>process_file()</code> function doesn&#39;t override a <code>.zynamo</code> file, unlike the <code>process()</code> function, thus helping with maintainability.</p>
 <h4><code>process_files()</code></h4>
 <p>If you find yourself somehow using a range of Zynamo type files, such as an ordinary PHP or HTML file with Zynamo indexes, or <code>.zynamo</code> files, it can be a long process to call <code>$zynamo-&gt;process()</code> or <code>$zynamo-&gt;process_file()</code> on all of them. This is where the <code>process_files()</code> function comes in to the rescue! The function accepts a list of files in the form of an Array or a comma separated list in a string. The function will check to see which function from <code>process()</code> to <code>process_file()</code> is the appropriate function to use to process the different files.  </p>
-<p>Here&#39;s a demo (<em>in a BlogPad environment</em>): </p>
+<p>Here&#39;s a demo (<em>in BlogPad&#39;s blog-load.php</em>): </p>
 <pre><code class="lang-php">$list_of_zynamo_files = array(
 &quot;$folder/index.zynamo.php&quot;,
 &quot;$folder/style.css&quot;
 );
 
-$zynamo-&gt;process_files($list_of_zynamo_files);</code></pre>
+$zynamo-&gt;process_files($list_of_zynamo_files);
+
+// or
+
+$zynamo-&gt;process_files(&quot;$folder/index.zynamo.php, $folder/style.css&quot;);</code></pre>
 <p><em>The <code>$folder</code> variable refers to BlogPad&#39;s content directory and it isn&#39;t related to Zynamo in any way.</em></p>

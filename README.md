@@ -42,7 +42,7 @@ Zynamo's `process_file()` function accepts one parameter - the path to an ordina
 #### `process_files()`
 If you find yourself somehow using a range of Zynamo type files, such as an ordinary PHP or HTML file with Zynamo indexes, or `.zynamo` files, it can be a long process to call `$zynamo->process()` or `$zynamo->process_file()` on all of them. This is where the `process_files()` function comes in to the rescue! The function accepts a list of files in the form of an Array or a comma separated list in a string. The function will check to see which function from `process()` to `process_file()` is the appropriate function to use to process the different files.  
 
-Here's a demo (_in a BlogPad environment_): 
+Here's a demo (<em>in BlogPad's blog-load.php</em>): 
 ```php
 $list_of_zynamo_files = array(
 "$folder/index.zynamo.php",
@@ -50,5 +50,9 @@ $list_of_zynamo_files = array(
 );
 
 $zynamo->process_files($list_of_zynamo_files);
+
+// or
+
+$zynamo->process_files("$folder/index.zynamo.php, $folder/style.css");
 ``` 
 _The `$folder` variable refers to BlogPad's content directory and it isn't related to Zynamo in any way._
