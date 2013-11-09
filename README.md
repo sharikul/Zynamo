@@ -1,63 +1,41 @@
-# Zynamo Templating Engine
-Zynamo is a basic templating engine written in PHP for use in MVC type PHP projects. Zynamo allows you to store commonly used values in an array which is referenced with a key, and once a file is parsed through the Zynamo processor, it will replace those keys with their respected values. 
+# Zynamo PHP
+Zynamo is a PHP based templating engine. Its syntax is almost that of a fully featured programming language. 
 
-## How to get Zynamo
-You should clone the Zynamo repository in your project folders, but it's not necessary. Wherever you want to store the Zynamo folder, simply cd into that directory and run the following command from a Git terminal:
+As such, Zynamo allows you to write PHP in a different way to the norm. However, Zynamo PHP only introduces its new syntax into areas of PHP that are likely to be widely used throughout PHP scripts, such as `if`'s, `echo`'s, and others.
 
-```
-git clone https://github.com/sharikul/Zynamo.git
-```   
-
-After running that command, a new folder labelled 'Zynamo' should be created with the necessary files within it. 
-
-## Begin using Zynamo
-As Zynamo is primarily intended to be used in MVC style PHP projects, the following demos will assume that it's indeed being used in such a project.
-
-### Load and instantiate the Zynamo class
-Zynamo's functions come bundled in a class titled 'zynamo' (with a lowercase 'z'). **It's highly recommended that you instantiate the Zynamo class in a _core file_ (such as WordPress' _wp_load.php_) instead of the main _index.php_ file.** Zynamo was tested on BlogPad's _blog-load.php_ file, which is its core file, and here's how you would instantiate the Zynamo class from within that file:
-
+The following Zynamo PHP code:
 ```php
-include "Zynamo/zynamo_config.php";
-include "Zynamo/zynamo_processor.php";
-
-$zynamo = new zynamo();
+$capital_city = 'London' if $country is 'United Kingdom' else 'Paris';
+```
+Will convert into:
+```php
+$capital_city = ( $country === 'United Kingdom' ) ? 'London': 'Paris';
 ```
 
-Then when `$zynamo` points to the Zynamo class, you can begin using Zynamo's processing functions with `$zynamo->name_of_function()`.
+## Defining functions
+Functions in PHP are as simple as they can get. With PHP 5, you can also type hint function parameters so that the compiler can conduct strict checking on parameters. However, there's currently no support for the `string`, `int`, and `bool` types. Functions in Zynamo PHP introduce support for these types, generating polyfill code at compile time:
 
-### Meet Zynamo's functions
-Zynamo comes with **three** functions which handle file processing. These are:    
-*  `process()`,
-*  `process_file()`,
-*  `process_files()`
-
-Each function processes files in a unique way.  
-
-#### `process()`  
-Zynamo's `process()` function accepts one parameter - the path to an ordinary PHP or HTML file in your content directory. Once the function is run and it's able to find the intended file, it will search for indexes in the <code>{{index_name}}</code> notation. If indexes are found, it will replace them with their respective values, providing that they have been defined first in `zynamo_config.php`. On a sidenote, the values will be replaced in real time, so once you are able to see the replaced values in your browser, you should be able to see them in the file in your text editor.
-
-#### `process_file()`
-Zynamo's `process_file()` function accepts one parameter - the path to an ordinary PHP or HTML **that includes 'zynamo' in the middle of the filename, such as `index.zynamo.php`**. Unlike `process()`, this function creates the corresponding file if it doesn't already exist in the directory. For example, if `index.php` doesn't exist, once `index.zynamo.php` is parsed, `index.php` will be created. **It's worth noting that this function won't process anything unless it finds a `{{index_name}}` notation anywhere**. The `process_file()` function doesn't override a `.zynamo` file, unlike the `process()` function, thus helping with maintainability.
-
-#### `process_files()`
-If you find yourself somehow using a range of Zynamo type files, such as an ordinary PHP or HTML file with Zynamo indexes, or `.zynamo` files, it can be a long process to call `$zynamo->process()` or `$zynamo->process_file()` on all of them. This is where the `process_files()` function comes in to the rescue! The function accepts a list of files in the form of an Array or a comma separated list in a string. The function will check to see which function from `process()` to `process_file()` is the appropriate function to use to process the different files.  
-
-Here's a demo (<em>in BlogPad's blog-load.php</em>): 
+The following Zynamo PHP code:
 ```php
-$list_of_zynamo_files = array(
-"$folder/index.zynamo.php",
-"$folder/style.css"
-);
+function revealInfo( String $name, Int $age = 18, Boolean $student = true) {
+echo "You are an $age year old student $name" if $student;
+}
+```
 
-$zynamo->process_files($list_of_zynamo_files);
+Will convert into:
+```php
+function revealInfo($name, $age = 18, $student = true) {
+$student = ( is_bool( $student ) ) ? $student: trigger_error( ... );
 
-// or
+$age = ( is_int( $age ) ) ? $age: trigger_error( ... );
 
-$zynamo->process_files("$folder/index.zynamo.php, $folder/style.css");
-``` 
-_The `$folder` variable refers to BlogPad's content directory and it isn't relevant to Zynamo in any way._
+$name = ( is_string( $name ) ) ? $name: trigger_error( ... );
 
-## Noted bugs
-Since Zynamo was developed to be used in MVC style projects, you will encounter bugs when trying to use it outside of these projects. As of 22-05-2013, there's **one** noted bug:  
+if( $student ) {
+  echo "You are an $age year old student $name";
+}
+}
+```
 
-*  Each index is replaced with its value on a separate page refresh when used outside of an MVC style project.
+You can also define a function via the `def` keyword, instead of `function`, if you'd like.
+### Documentation is slowly going to be updated!
