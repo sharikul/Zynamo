@@ -38,4 +38,76 @@ if( $student ) {
 ```
 
 You can also define a function via the `def` keyword, instead of `function`, if you'd like.
+
+## Defining constants
+Constants in Zynamo PHP are identified as not starting with a dollar symbol, which denotes a variable. Therefore the following Zynamo code:
+```php
+isConstant = true;
+```
+
+Will convert into:
+```php
+define('isConstant', true);
+```
+
+Simple!
+
+## Creating arrays
+Arrays in Zynamo PHP are designed to almost replicate the JavaScript style of creating arrays. In Zynamo PHP, you aren't required to quote array keys, or use the `=>` symbol to link keys to values. A Zynamo PHP array starts with the `[` bracket and ends with the `]` bracket. Likewise to PHP 5.4, arrays must be terminated with a semicolon.
+
+Zynamo PHP array:
+```php
+$myArray = [
+  name: 'Sharikul Islam',
+  age: 18,
+  location: 'London, United Kingdom',
+  additionalInfo: [
+    driver: false,
+    student: true,
+    birthMonth: 'November',
+    birthYear: 1995
+  ]
+];
+```
+
+Will convert into:
+```php
+$myArray = array(
+  "name" => 'Sharikul Islam',
+  "age" => 18,
+  "location" => 'London, United Kingdom',
+  "additionalInfo" => array(
+    "driver" => false,
+    "student" => true,
+    "birthMonth" => 'November',
+    "birthYear" => 1995
+   )
+);
+```
+
+## Accessing array keys
+Zynamo PHP still allows you to use the default PHP array access notation (`$variable_to_array['array']['nestedArray']`). However, Zynamo PHP introduces a dotted access notation, which is similar to JavaScript.
+
+This Zynamo PHP notation corresponding to the array created in the previous example:
+```php
+echo $myArray.additionalInfo.birthMonth;
+```
+
+Will convert into:
+```php
+echo $myArray['additionalInfo']['birthMonth'];
+```
+
+## Comments
+In Zynamo PHP, you can still make use of PHP's various commenting methods (either `/* comment */` or `// comment`). However, since Zynamo PHP is Regex powered, any example code provided with PHP comment methods are likely to be interpreted as regular code, which can cause unexpected problems. Therefore Zynamo PHP introduces its own style of commenting, via the hash (`#`) symbol on each side.
+
+Zynamo PHP comment:
+```php
+# I am a comment. Look! I'm accessing $myArray.location! constant = false; #
+```
+
+Converts into:
+```php
+/* I am a comment. Look! I'm accessing $myArray.location! constant = false; */
+```
 ### Documentation is slowly going to be updated!
