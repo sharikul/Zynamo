@@ -4,7 +4,7 @@ Zynamo is a PHP based templating engine. Its syntax is almost that of a fully fe
 As such, Zynamo allows you to write PHP in a different way to the norm. However, Zynamo PHP only introduces its new syntax into areas of PHP that are likely to be widely used throughout PHP scripts, such as `if`'s, `echo`'s, and others.
 
 The following Zynamo PHP code:
-```php
+```php 
 $capital_city = 'London' if $country is 'United Kingdom' else 'Paris';
 ```
 Will convert into:
@@ -12,6 +12,77 @@ Will convert into:
 $capital_city = ( $country === 'United Kingdom' ) ? 'London': 'Paris';
 ```
 
+## Loading and processing templates
+Before you begin to use Zynamo, it's vital that you create and load a template. A Zynamo template can end in the `.zy` or `.tl` file extensions. Then, create a `.php` file that you will use to load the Zynamo class. Require the Zynamo class by specifying the path to `Zynamo.php` within the Zynamo directory, then instantiate the Zynamo class. You can provide the path to a template while instantiating, or call the `render` method after instantiating.
+
+### Example:
+
+#### `index.zy`
+```html
+<p>I'm within index.zy</p>
+```
+
+#### `index.php`
+```php
+require 'path/to/Zynamo/Zynamo.php';
+
+$zynamo = new Zynamo('index'); // You can leave off the file extension if the extension of the template is .zy
+
+// or
+
+$zynamo->render('index');
+```
+
+Browse to the PHP file in your browser and your template should be compiled. Compiled templates are stored in the `compiled/` directory within the Zynamo directory.
+
+## Writing Zynamo code in templates
+Likewise to PHP's `<?php` and `?>` tags, Zynamo uses its own sets of tags, `[[` (_opening tag_) and `]]` (_closing tag_), that it uses to search for Zynamo code. In templates, any Zynamo specific code should be written between the two square bracket tags. Writing Zynamo code within PHP tags will result in parse errors.
+
+### Example:
+
+#### `index.zy`
+```php
+[[
+  $title = 'Page Title' if !isset( $title );
+]]
+<html>
+  <head>
+    <title>[[ echo $title; ]]</title>
+  </head>
+  <body>
+    <ul>
+      [[
+        for( 1...50 using $counter) {
+          echo '<li>List {$counter}</li>';
+        }
+      ]]
+    </ul>
+  </body>
+</html>
+```
+
+#### `index.php` - compiled template
+```php
+<?php
+  if( !isset( $title ) ) {
+    $title = 'Page Title';
+  }
+?>
+<html>
+  <head>
+    <title><?php echo $title; ?></title>
+  </head>
+  <body>
+    <ul>
+      <?php
+        for( $counter = 1; $counter <= 50; ++$counter) {
+          echo '<li>List '.$counter.'</li>';
+        }
+      ?>
+    </ul>
+  </body>
+</html>
+```
 ## Defining functions
 Functions in PHP are as simple as they can get. With PHP 5, you can also type hint function parameters so that the compiler can conduct strict checking on parameters. However, there's currently no support for the `string`, `int`, and `bool` types. Functions in Zynamo PHP introduce support for these types, generating polyfill code at compile time:
 
@@ -114,7 +185,7 @@ Converts into:
 That's it!
 
 ## Inline `if`'s and `unless`'s
-Zynamo PHP allows you to write conditional `if` statements inline, similar to JavaScript, as well as **one** `else` statement. An `unless` statement is a shorthand method of executing code whilst a condition returns `false`.
+Zynamo PHP allows you to write conditional `if` statements inline, similar to JavaScript, as well as **one** `else` statement. An `unless` statement is a shorthand method of executing code whilst a condition returns `false`. Conditions of statements **must not be written between brackets**.
 
 ### Examples
 Zynamo PHP:
