@@ -155,6 +155,19 @@ $myArray = array(
    )
 );
 ```
+You can also provide an array list (one that doesn't link values to key), like so:
+```php
+$requiredKeys = [name, age, location];
+```
+Which will compile into:
+```php
+$requiredKeys = array("name", "age", "location");
+```
+### Some tips on using this feature
+**Consistency is key**. As of yet, you cannot supply key value pairs in an array that has started off with taking just keys on their own. This will lead to Zynamo to ignore the keys on their own, which will lead PHP to treat the other keys as constants. Therefore as shown in the examples above, supply key value pairs into an array that is already taking key value pairs, and just supply keys on their own into an array that is taking just keys.
+
+Additionally, you can't yet supply a Zynamo PHP shorthand array as a function parameter. To get around this, you should reference an array via a variable and use the variable instead as a function parameter.
+
 
 ## Accessing array keys
 Zynamo PHP still allows you to use the default PHP array access notation (`$variable_to_array['array']['nestedArray']`). However, Zynamo PHP introduces a dotted access notation, which is similar to JavaScript.
@@ -316,7 +329,7 @@ if( $number >= 50 ) {
 }
 ```
 ## Interpolation
-Zynamo PHP allows you to interpolate values within **single quoted strings**. Interpolation within single quoted strings is denoted via the opening `{` bracket and the closing `}` bracket. After compilation, the values interpolated will be concatenated to form a string, as you'd expect. Currently, you can interpolate the Zynamo dotted array access notation and ordinary variables.
+Zynamo PHP allows you to interpolate values within **single quoted strings**. Interpolation within single quoted strings is denoted via the opening `{` bracket and the closing `}` bracket. After compilation, the values interpolated will be concatenated to form a string, as you'd expect. You can interpolate anything, from functions to constants and variables. **But do use this feature _wisely_.**
 
 Zynamo PHP:
 ```php
@@ -327,6 +340,12 @@ PHP:
 ```php
 echo 'Hello, my name is '.$myArray['name'].'. I am '.$myArray['age'].' years old from '.$myArray['location'].'!';
 ```
+
+### Some tips on how to use this feature
+Whilst you are allowed to interpolate anything, including functions, if you are someone who provides parameters in single quotes, you can run into issues with PHP after Zynamo has compiled your code. If providing parameters to functions within interpolation brackets, always make use of **double quotes**!
+
+If you'll need to provide square brackets that should be displayed as normal in single quotation texts, always escape the opening bracket `{` by `\{`, and Zynamo will ignore it.
+ 
 ## `unless` blocks
 Unique to Zynamo PHP, you can also write code within an `unless` block. The structure is the same as other language structures such as the `if` structure.
 
